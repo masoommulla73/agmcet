@@ -4,17 +4,18 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
 
-    // Reads exactly: WEB3FORMS_KEY from Vercel environment variables
-    const accessKey = (process.env.WEB3FORMS_KEY || "").replace(/['"]/g, "").trim();
+    // WEB3FORMS_KEY — set this in Vercel Environment Variables
+    const accessKey = (process.env.WEB3FORMS_KEY || "").trim();
 
     if (!accessKey) {
       return NextResponse.json(
-        { message: "Server error: WEB3FORMS_KEY is not set in Vercel environment variables." },
+        { message: "Server error: WEB3FORMS_KEY is not configured." },
         { status: 500 }
       );
     }
 
-    const response = await fetch("https://api.web3forms.com/submit", {
+    // Exact same structure as your working portfolio project
+    const res = await fetch("https://api.web3forms.com/submit", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -26,21 +27,15 @@ export async function POST(request: Request) {
       }),
     });
 
-    let data: { success?: boolean; message?: string } = {};
-    try {
-      data = await response.json();
-    } catch {
+    if (res.ok) {
       return NextResponse.json({ success: true, message: "Form submitted successfully." });
-    }
-
-    if (!response.ok || !data.success) {
+    } else {
+      const err = await res.json().catch(() => ({}));
       return NextResponse.json(
-        { message: data.message || `Web3Forms error (Status: ${response.status}).` },
-        { status: response.status }
+        { message: (err as { message?: string }).message || `Web3Forms error (Status: ${res.status})` },
+        { status: res.status }
       );
     }
-
-    return NextResponse.json({ success: true, message: "Form submitted successfully." });
   } catch (error) {
     console.error("API Contact Error:", error);
     return NextResponse.json(
