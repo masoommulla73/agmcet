@@ -363,7 +363,7 @@ const COURSES = [
 const EDUCATION_LEVELS = ["12th (PUC)", "Diploma", "Other"];
 
 function EnquiryTab() {
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | string>("idle");
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -391,10 +391,16 @@ function EnquiryTab() {
         setStatus("success");
         form.reset();
       } else {
-        setStatus("error");
+        const text = await res.text();
+        try {
+          const json = JSON.parse(text);
+          setStatus(`Error: ${json.message || text}`);
+        } catch {
+          setStatus(`Error: ${text || res.statusText}`);
+        }
       }
-    } catch (err) {
-      setStatus("error");
+    } catch (err: any) {
+      setStatus(`Error: ${err.message || 'Network error'}`);
     }
   }
 
@@ -431,9 +437,10 @@ function EnquiryTab() {
         </p>
 
         <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 sm:p-10 space-y-6 relative overflow-hidden">
-          {status === "error" && (
-            <div className="p-4 bg-red-50 text-red-600 text-sm rounded-xl border border-red-100 text-center">
-              Oops! Something went wrong. Please try again later.
+          {status !== "idle" && status !== "loading" && status !== "success" && (
+            <div className="p-4 bg-red-50 text-red-600 text-sm rounded-xl border border-red-100 text-center break-words">
+              Oops! Something went wrong.<br/>
+              <strong>{status}</strong>
             </div>
           )}
 
