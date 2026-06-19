@@ -17,8 +17,15 @@ export async function POST(request: Request) {
 
     if (!admin) {
       // First time login - check against .env
-      const envUsername = process.env.ADMIN_USERNAME || "admin";
-      const envPassword = process.env.ADMIN_PASSWORD || "password";
+      const envUsername = process.env.ADMIN_USERNAME;
+      const envPassword = process.env.ADMIN_PASSWORD;
+
+      if (!envUsername || !envPassword) {
+        return NextResponse.json(
+          { message: "Server configuration error: Admin credentials not set in environment." }, 
+          { status: 500 }
+        );
+      }
 
       if (username !== envUsername || password !== envPassword) {
         return NextResponse.json({ message: "Invalid credentials" }, { status: 401 });
