@@ -9,19 +9,19 @@ export async function POST(request: Request) {
     await dbConnect();
 
     const submission = new Submission({
-      type: 'contact',
+      type: 'admission',
       name: body.name,
       email: body.email,
       phone: body.phone,
-      subject: body.subject,
-      message: body.message,
+      course: body.course,
+      city: body.city,
     });
 
     await submission.save();
 
     return NextResponse.json({ success: true, message: "Form submitted successfully." });
   } catch (error) {
-    console.error("API Contact Error:", error);
+    console.error("API Admissions Error:", error);
     return NextResponse.json(
       { message: `Server error: ${error instanceof Error ? error.message : String(error)}` },
       { status: 500 }

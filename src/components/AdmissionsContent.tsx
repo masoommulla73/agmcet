@@ -373,11 +373,10 @@ function EnquiryTab() {
     const formData = new FormData(form);
 
     try {
-      const res = await fetch("https://api.web3forms.com/submit", {
+      const res = await fetch("/api/admissions", {
         method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          access_key: process.env.NEXT_PUBLIC_WEB3FORMS_KEY,
           subject: "New Admission Enquiry – AGM College",
           from_name: "AGM College Website",
           ...Object.fromEntries(formData),

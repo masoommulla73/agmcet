@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { Menu, X, ArrowRight } from "lucide-react";
 
 const NAV_LINKS = [
@@ -16,6 +17,7 @@ const NAV_LINKS = [
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const router = useRouter();
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white shadow-sm border-b border-slate-100">
@@ -24,8 +26,14 @@ export function Header() {
           {/* Logo Section */}
           <div className="flex shrink-0 items-center gap-3">
             <Link href="/" className="flex items-center gap-3" aria-label="A.G.M College Home">
-              <div className="relative flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-md overflow-hidden ring-2 ring-[#d4af37]/50">
-                <Image src="/logo.png" alt="A.G.M College Logo" fill className="object-contain p-1" />
+              <div 
+                onDoubleClick={(e) => {
+                  e.preventDefault();
+                  router.push('/admin/login');
+                }}
+                className="relative flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-md overflow-hidden ring-2 ring-[#d4af37]/50 cursor-pointer"
+              >
+                <Image src="/logo.png" alt="A.G.M College Logo" fill className="object-contain p-1" sizes="48px" />
               </div>
               <div className="hidden md:flex flex-col">
                 <span className="text-lg font-bold leading-none text-[#0a192f] tracking-tight font-serif mb-1">A.G.M College</span>
