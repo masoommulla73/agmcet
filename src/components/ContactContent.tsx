@@ -4,9 +4,7 @@ import Link from "next/link";
 import {
   Home,
   ChevronRight,
-  Phone,
   Smartphone,
-  Mail,
   MapPin,
   ExternalLink,
   Send,
@@ -64,13 +62,6 @@ function HeroBanner() {
 
 // ── Contact Info cards ────────────────────────────────────────────────────────
 const CONTACT_ITEMS = [
-  {
-    icon: Phone,
-    label: "Landline",
-    value: "(0836) 2312071",
-    href: "tel:08362312071",
-    highlight: false,
-  },
   {
     icon: Smartphone,
     label: "Contact 1",
@@ -170,7 +161,7 @@ function EnquiryForm() {
             required
             minLength={2}
             maxLength={50}
-            placeholder="John Doe"
+            placeholder="Your name"
             className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-[#0a192f] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#d4af37] focus:border-transparent transition"
           />
         </div>
