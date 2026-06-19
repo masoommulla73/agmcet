@@ -373,19 +373,34 @@ function EnquiryTab() {
     const formData = new FormData(form);
 
     try {
-      const email = process.env.NEXT_PUBLIC_FORM_EMAIL || "yourgmail@gmail.com";
+      const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_KEY || "YOUR_ACCESS_KEY_HERE";
       
-      // We use no-cors to bypass browser CORS blocks. The response will be opaque,
-      // meaning we can't read the status, but the request will successfully reach FormSubmit.
-      await fetch(`https://formsubmit.co/${email}`, {
+      const res = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
-        mode: "no-cors",
-        body: formData,
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: accessKey,
+          subject: "New Admission Enquiry!",
+          from_name: "AGM College Website",
+          ...Object.fromEntries(formData),
+        }),
       });
 
-      // With no-cors, we assume success if the network request completed
-      setStatus("success");
-      form.reset();
+      if (res.ok) {
+        setStatus("success");
+        form.reset();
+      } else {
+        const text = await res.text();
+        try {
+          const json = JSON.parse(text);
+          setStatus(`Error: ${json.message || "Failed to submit"}`);
+        } catch {
+          setStatus("Error: Failed to submit");
+        }
+      }
     } catch (err: unknown) {
       setStatus(`Error: ${(err as Error).message || 'Network error'}`);
     }
