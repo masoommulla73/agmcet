@@ -5,6 +5,7 @@ import {
   Home,
   ChevronRight,
   Smartphone,
+  Mail,
   MapPin,
   ExternalLink,
   Send,
@@ -74,6 +75,13 @@ const CONTACT_ITEMS = [
     label: "Contact 2",
     value: "+91 91087 90808",
     href: "tel:+919108790808",
+    highlight: false,
+  },
+  {
+    icon: Mail,
+    label: "Email",
+    value: "principalagmcet@gmail.com",
+    href: "mailto:principalagmcet@gmail.com",
     highlight: false,
   },
   {

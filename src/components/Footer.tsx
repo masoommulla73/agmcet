@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, ArrowUpRight, Phone, Mail, MapPin } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Phone, Smartphone, Mail, MapPin } from "lucide-react";
 
 const NAV_GROUPS = [
   {
@@ -94,12 +94,16 @@ export function Footer() {
                 <span>Nej-Shamanewadi, Tq: Chikkodi, Dist: Belagavi, Karnataka — 591239</span>
               </div>
               <div className="flex items-center gap-2.5">
-                <Phone className="w-3.5 h-3.5 text-[#d4af37] shrink-0" />
-                <span>+91 (08338) 222014 / 222015</span>
+                <Smartphone className="w-3.5 h-3.5 text-[#d4af37] shrink-0" />
+                <a href="tel:+917619355570" className="hover:text-[#d4af37] transition-colors">+91 76193 55570</a>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <Smartphone className="w-3.5 h-3.5 text-[#d4af37] shrink-0" />
+                <a href="tel:+919108790808" className="hover:text-[#d4af37] transition-colors">+91 91087 90808</a>
               </div>
               <div className="flex items-center gap-2.5">
                 <Mail className="w-3.5 h-3.5 text-[#d4af37] shrink-0" />
-                <span>info@agmcollege.edu.in</span>
+                <a href="mailto:principalagmcet@gmail.com" className="hover:text-[#d4af37] transition-colors">principalagmcet@gmail.com</a>
               </div>
             </div>
           </div>
