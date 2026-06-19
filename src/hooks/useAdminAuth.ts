@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 
 export function useAdminAuth() {
@@ -22,10 +22,10 @@ export function useAdminAuth() {
     checkAuth();
   }, [router, pathname]);
 
-  const logout = () => {
+  const logout = useCallback(() => {
     sessionStorage.removeItem('admin_token');
     router.push('/admin/login');
-  };
+  }, [router]);
 
   return { isAuthenticated, logout };
 }
