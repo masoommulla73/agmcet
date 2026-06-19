@@ -97,16 +97,16 @@ function EnquiryForm() {
     const formData = new FormData(form);
 
     try {
-      const res = await fetch("/api/contact", {
+      const res = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({
+          access_key: process.env.NEXT_PUBLIC_WEB3FORMS_KEY,
           subject: "New Contact Us Message – AGM College",
           from_name: "AGM College Website",
           ...Object.fromEntries(formData),
         }),
       });
-
       const data = await res.json().catch(() => ({}));
       if (res.ok && (data as { success?: boolean }).success) {
         setStatus("success");
