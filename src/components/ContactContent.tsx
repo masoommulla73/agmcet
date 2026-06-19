@@ -95,11 +95,14 @@ const CONTACT_ITEMS = [
 
 // ── Quick Enquiry Form ────────────────────────────────────────────────────────
 function EnquiryForm() {
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 
+    (process.env.NEXT_PUBLIC_VERCEL_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : 'https://agmcollege.edu.in');
+
   return (
     <form action={`https://formsubmit.co/${process.env.NEXT_PUBLIC_FORM_EMAIL || 'yourgmail@gmail.com'}`} method="POST" className="space-y-5">
       <input type="hidden" name="_captcha" value="false" />
       <input type="hidden" name="_subject" value="New Contact Us Message!" />
-      <input type="hidden" name="_next" value={`${process.env.NEXT_PUBLIC_SITE_URL || 'https://agmcollege.edu.in'}/contact`} />
+      <input type="hidden" name="_next" value={`${baseUrl}/contact`} />
       
       {/* Name + Phone */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">

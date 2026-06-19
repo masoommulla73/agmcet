@@ -373,10 +373,15 @@ function EnquiryTab() {
           Fill in the form below and our admissions counsellor will get in touch with you within 24 hours.
         </p>
 
-        <form action={`https://formsubmit.co/${process.env.NEXT_PUBLIC_FORM_EMAIL || 'yourgmail@gmail.com'}`} method="POST" className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 sm:p-10 space-y-6 relative overflow-hidden">
-          <input type="hidden" name="_captcha" value="false" />
-          <input type="hidden" name="_subject" value="New Admission Enquiry!" />
-          <input type="hidden" name="_next" value={`${process.env.NEXT_PUBLIC_SITE_URL || 'https://agmcollege.edu.in'}/admissions`} />
+        {(() => {
+          const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 
+            (process.env.NEXT_PUBLIC_VERCEL_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : 'https://agmcollege.edu.in');
+          
+          return (
+            <form action={`https://formsubmit.co/${process.env.NEXT_PUBLIC_FORM_EMAIL || 'yourgmail@gmail.com'}`} method="POST" className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 sm:p-10 space-y-6 relative overflow-hidden">
+              <input type="hidden" name="_captcha" value="false" />
+              <input type="hidden" name="_subject" value="New Admission Enquiry!" />
+              <input type="hidden" name="_next" value={`${baseUrl}/admissions`} />
           
           {/* Top gold bar */}
           <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#d4af37] to-[#0a192f]" />
@@ -499,6 +504,8 @@ function EnquiryTab() {
             </button>
           </div>
         </form>
+        );
+        })()}
 
       </div>
     </div>
