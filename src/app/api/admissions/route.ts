@@ -15,6 +15,7 @@ export async function POST(request: Request) {
       phone: body.phone,
       course: body.course,
       city: body.city,
+      education: body.education,
     });
 
     await submission.save();

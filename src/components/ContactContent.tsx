@@ -152,8 +152,6 @@ function EnquiryForm() {
         </div>
       )}
 
-      <input type="hidden" name="_captcha" value="false" />
-      
       {/* Name + Phone */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         <div className="flex flex-col gap-1.5">
@@ -162,7 +160,7 @@ function EnquiryForm() {
           </label>
           <input
             id="ct-name"
-            name="Full Name"
+            name="name"
             type="text"
             required
             minLength={2}
@@ -177,7 +175,7 @@ function EnquiryForm() {
           </label>
           <input
             id="ct-phone"
-            name="Phone"
+            name="phone"
             type="tel"
             required
             minLength={10}
@@ -196,7 +194,7 @@ function EnquiryForm() {
         </label>
         <input
           id="ct-email"
-          name="Email"
+          name="email"
           type="email"
           required
           maxLength={100}
@@ -212,7 +210,7 @@ function EnquiryForm() {
         </label>
         <textarea
           id="ct-message"
-          name="Message"
+          name="message"
           required
           minLength={10}
           maxLength={1000}

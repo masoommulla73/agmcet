@@ -434,8 +434,6 @@ function EnquiryTab() {
             </div>
           )}
 
-          <input type="hidden" name="_captcha" value="false" />
-          
           {/* Top gold bar */}
           <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#d4af37] to-[#0a192f]" />
 
@@ -446,7 +444,7 @@ function EnquiryTab() {
             </label>
             <input
               id="adm-name"
-              name="Full Name"
+              name="name"
               type="text"
               required
               minLength={2}
@@ -464,7 +462,7 @@ function EnquiryTab() {
               </label>
               <input
                 id="adm-mobile"
-                name="Mobile Number"
+                name="phone"
                 type="tel"
                 required
                 minLength={10}
@@ -480,7 +478,7 @@ function EnquiryTab() {
               </label>
               <input
                 id="adm-email"
-                name="Email"
+                name="email"
                 type="email"
                 required
                 maxLength={100}
@@ -497,7 +495,7 @@ function EnquiryTab() {
             </label>
             <input
               id="adm-city"
-              name="City"
+              name="city"
               type="text"
               required
               minLength={2}
@@ -516,7 +514,7 @@ function EnquiryTab() {
               </label>
               <select
                 id="adm-education"
-                name="Education"
+                name="education"
                 required
                 defaultValue=""
                 className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-[#0a192f] focus:outline-none focus:ring-2 focus:ring-[#d4af37] focus:border-transparent transition appearance-none cursor-pointer"
@@ -533,7 +531,7 @@ function EnquiryTab() {
               </label>
               <select
                 id="adm-course"
-                name="Course"
+                name="course"
                 required
                 defaultValue=""
                 className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-[#0a192f] focus:outline-none focus:ring-2 focus:ring-[#d4af37] focus:border-transparent transition appearance-none cursor-pointer"

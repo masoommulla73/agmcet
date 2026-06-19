@@ -29,6 +29,7 @@ type Submission = {
   message?: string;
   course?: string;
   city?: string;
+  education?: string;
   status: "pending" | "resolved";
   createdAt: string;
 };
@@ -506,6 +507,10 @@ export default function AdminDashboard() {
                     <div>
                       <label className="text-[10px] font-bold text-[#d4af37] uppercase tracking-widest mb-2 block">Course Interested</label>
                       <h4 className="font-bold text-lg text-[#0a192f]">{selectedSubmission.course}</h4>
+                    </div>
+                    <div>
+                      <label className="text-[10px] font-bold text-[#d4af37] uppercase tracking-widest mb-2 block">Education Level</label>
+                      <h4 className="font-bold text-lg text-[#0a192f]">{selectedSubmission.education || "N/A"}</h4>
                     </div>
                     <div>
                       <label className="text-[10px] font-bold text-[#d4af37] uppercase tracking-widest mb-2 block">City / Location</label>

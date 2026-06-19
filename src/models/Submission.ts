@@ -17,6 +17,7 @@ const SubmissionSchema = new mongoose.Schema({
   // Admission specific fields
   course: { type: String },
   city: { type: String },
+  education: { type: String },
   
   status: {
     type: String,
