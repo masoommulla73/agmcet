@@ -87,7 +87,7 @@ const CONTACT_ITEMS = [
 
 // ── Quick Enquiry Form ────────────────────────────────────────────────────────
 function EnquiryForm() {
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | string>("idle");
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -113,10 +113,11 @@ function EnquiryForm() {
         setStatus("success");
         form.reset();
       } else {
-        setStatus("error");
+        const json = await res.json().catch(() => ({}));
+        setStatus(`error:${(json as { message?: string }).message || `Server error (${res.status})`}`);
       }
-    } catch {
-      setStatus("error");
+    } catch (err: unknown) {
+      setStatus(`error:${(err as Error).message || 'Network error'}`);
     }
   }
 
@@ -140,9 +141,9 @@ function EnquiryForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
-      {status === "error" && (
+      {status.startsWith("error") && (
         <div className="p-3 bg-red-50 text-red-600 text-sm rounded-xl border border-red-100 text-center">
-          Oops! Something went wrong. Please try again later.
+          {status.replace("error:", "") || "Something went wrong. Please try again."}
         </div>
       )}
 
