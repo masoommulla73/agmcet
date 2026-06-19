@@ -60,6 +60,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ success: true, token });
   } catch (error) {
     console.error("Auth API Error:", error);
-    return NextResponse.json({ message: "Server error" }, { status: 500 });
+    return NextResponse.json({ message: `Server error: ${error instanceof Error ? error.message : String(error)}` }, { status: 500 });
   }
 }

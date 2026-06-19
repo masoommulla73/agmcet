@@ -82,24 +82,17 @@ export default function AdminDashboard() {
   useEffect(() => {
     if (!isAuthenticated) return;
 
-    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-      e.preventDefault();
-      e.returnValue = "";
-    };
-
     const handlePopState = (e: PopStateEvent) => {
       // Prevent immediate navigation
       window.history.pushState(null, "", window.location.href);
       setShowLeavePrompt(true);
     };
 
-    window.addEventListener("beforeunload", handleBeforeUnload);
     // Push an initial state so popstate can catch the back button
     window.history.pushState(null, "", window.location.href);
     window.addEventListener("popstate", handlePopState);
 
     return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
       window.removeEventListener("popstate", handlePopState);
     };
   }, [isAuthenticated]);
