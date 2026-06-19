@@ -375,27 +375,20 @@ function EnquiryTab() {
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          subject: "New Admission Enquiry!",
+          subject: "New Admission Enquiry – AGM College",
           from_name: "AGM College Website",
           ...Object.fromEntries(formData),
         }),
       });
 
-      if (res.ok) {
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && (data as { success?: boolean }).success) {
         setStatus("success");
         form.reset();
       } else {
-        const text = await res.text();
-        try {
-          const json = JSON.parse(text);
-          setStatus(`Error: ${json.message || "Failed to submit"}`);
-        } catch {
-          setStatus("Error: Failed to submit");
-        }
+        setStatus(`Error: ${(data as { message?: string }).message || `Status ${res.status}`}`);
       }
     } catch (err: unknown) {
       setStatus(`Error: ${(err as Error).message || 'Network error'}`);

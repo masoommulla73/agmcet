@@ -99,22 +99,20 @@ function EnquiryForm() {
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          subject: "New Contact Us Message!",
+          subject: "New Contact Us Message – AGM College",
           from_name: "AGM College Website",
           ...Object.fromEntries(formData),
         }),
       });
 
-      if (res.ok) {
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && (data as { success?: boolean }).success) {
         setStatus("success");
         form.reset();
       } else {
-        const json = await res.json().catch(() => ({}));
-        setStatus(`error:${(json as { message?: string }).message || `Server error (${res.status})`}`);
+        setStatus(`error:${(data as { message?: string }).message || `Status ${res.status}`}`);
       }
     } catch (err: unknown) {
       setStatus(`error:${(err as Error).message || 'Network error'}`);
