@@ -15,6 +15,13 @@ export async function POST(request: Request) {
       );
     }
 
+    if (accessKey === "YOUR_ACCESS_KEY_HERE" || accessKey.includes("YOUR_ACCESS_KEY")) {
+      return NextResponse.json(
+        { message: "You are still using the placeholder Access Key! Please paste your real Web3Forms key in Vercel." },
+        { status: 400 }
+      );
+    }
+
     // Proxy the request to Web3Forms
     const response = await fetch("https://api.web3forms.com/submit", {
       method: "POST",
