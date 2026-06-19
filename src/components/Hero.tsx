@@ -139,7 +139,7 @@ const MESSAGES = [
   {
     role: "Principal's Message",
     name: "Dr. Ravindra Patil",
-    image: "/images/about/principal.png",
+    image: "/images/principal.jpeg",
     paragraphs: [
       "A.G.M College of Engineering & Technology is a known Institute since a decade for its qualitative teaching. I have seen students, even with low grades, reaching their highest possibility in terms of academic results. The environment enhances students to aim at their best as they are free from urban hazards.",
       "I extend my best wishes to all students in reaching their objectives and goals that lead to true success in their career path. I feel proud when our students reach new heights by achieving excellence in academics and lead society and nation in the fore front.",

@@ -28,7 +28,12 @@ export async function POST(request: Request) {
       }),
     });
 
-    const data = await response.json();
+    let data;
+    try {
+      data = await response.json();
+    } catch {
+      data = { message: `Web3Forms returned an invalid response (Status: ${response.status})` };
+    }
 
     if (!response.ok) {
       return NextResponse.json(
@@ -41,7 +46,7 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error("API Contact Error:", error);
     return NextResponse.json(
-      { message: "Internal Server Error" },
+      { message: `Error: ${error instanceof Error ? error.message : String(error)}` },
       { status: 500 }
     );
   }
