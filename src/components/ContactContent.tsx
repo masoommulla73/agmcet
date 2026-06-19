@@ -73,16 +73,16 @@ const CONTACT_ITEMS = [
   },
   {
     icon: Smartphone,
-    label: "Mobile",
-    value: "+91 94810 87999",
-    href: "tel:+919481087999",
+    label: "Contact 1",
+    value: "+91 76193 55570",
+    href: "tel:+917619355570",
     highlight: true,
   },
   {
-    icon: Mail,
-    label: "Email",
-    value: "principal@agmrcet.ac.in",
-    href: "mailto:principal@agmrcet.ac.in",
+    icon: Smartphone,
+    label: "Contact 2",
+    value: "+91 91087 90808",
+    href: "tel:+919108790808",
     highlight: false,
   },
   {

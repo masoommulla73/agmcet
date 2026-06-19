@@ -818,23 +818,8 @@ export function Hero() {
             Virtual Labs, Autodesk, Oracle Academy, Intel, NVIDIA GPU Education Center, Texas Instruments, e-Yantra, NPTEL, Bentley, Tata Ready Engineer, VLSI, Foss Lab, WSN Lab, Tech Mahindra, Center of Excellence for Data Science & SAP ABAP.
           </p>
 
-          {/* Mobile View: Static Grid List */}
-          <div className="grid grid-cols-4 gap-3 md:hidden mt-8">
-            {[...INNOVATION_LOGOS_TOP, ...INNOVATION_LOGOS_BOTTOM].map((logo, i) => (
-              <div key={`mob-${i}`} className="bg-white rounded-xl shadow-sm border border-slate-100 flex items-center justify-center p-3 aspect-[4/3]">
-                <Image 
-                  src={logo} 
-                  alt="Innovation Logo" 
-                  width={100} 
-                  height={60} 
-                  className="max-h-full max-w-full object-contain filter grayscale opacity-70"
-                />
-              </div>
-            ))}
-          </div>
-
-          {/* Desktop View: Dual Animated Marquees */}
-          <div className="hidden md:flex relative mt-12 w-full overflow-hidden before:absolute before:left-0 before:top-0 before:z-10 before:h-full before:w-[60px] before:bg-gradient-to-r before:from-slate-50 before:to-transparent after:absolute after:right-0 after:top-0 after:z-10 after:h-full after:w-[60px] after:bg-gradient-to-l after:from-slate-50 after:to-transparent flex-col gap-6 py-4">
+          {/* Animated Marquees (Responsive) */}
+          <div className="flex relative mt-8 md:mt-12 w-full overflow-hidden before:absolute before:left-0 before:top-0 before:z-10 before:h-full before:w-[40px] md:before:w-[60px] before:bg-gradient-to-r before:from-slate-50 before:to-transparent after:absolute after:right-0 after:top-0 after:z-10 after:h-full after:w-[40px] md:after:w-[60px] after:bg-gradient-to-l after:from-slate-50 after:to-transparent flex-col gap-4 md:gap-6 py-4">
             
             {/* Custom Marquee Animation Style */}
             <style dangerouslySetInnerHTML={{__html: `
@@ -861,7 +846,7 @@ export function Hero() {
             <div className="flex animate-scroll-left items-center w-max">
               <div className="flex items-center gap-8 pr-8">
                 {INNOVATION_LOGOS_TOP.map((logo, i) => (
-                  <div key={`t1-${i}`} className="flex-shrink-0 w-56 h-32 bg-white rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center p-6 group hover:shadow-md transition-all hover:scale-105 duration-300 cursor-pointer">
+                  <div key={`t1-${i}`} className="flex-shrink-0 w-32 h-20 sm:w-56 sm:h-32 bg-white rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center p-4 sm:p-6 group hover:shadow-md transition-all hover:scale-105 duration-300 cursor-pointer">
                     <Image 
                       src={logo} 
                       alt="Innovation Logo" 
@@ -874,7 +859,7 @@ export function Hero() {
               </div>
               <div className="flex items-center gap-8 pr-8">
                 {INNOVATION_LOGOS_TOP.map((logo, i) => (
-                  <div key={`t2-${i}`} className="flex-shrink-0 w-56 h-32 bg-white rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center p-6 group hover:shadow-md transition-all hover:scale-105 duration-300 cursor-pointer">
+                  <div key={`t2-${i}`} className="flex-shrink-0 w-32 h-20 sm:w-56 sm:h-32 bg-white rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center p-4 sm:p-6 group hover:shadow-md transition-all hover:scale-105 duration-300 cursor-pointer">
                     <Image 
                       src={logo} 
                       alt="Innovation Logo" 
@@ -891,7 +876,7 @@ export function Hero() {
             <div className="flex animate-scroll-right items-center w-max">
               <div className="flex items-center gap-8 pr-8">
                 {INNOVATION_LOGOS_BOTTOM.map((logo, i) => (
-                  <div key={`b1-${i}`} className="flex-shrink-0 w-56 h-32 bg-white rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center p-6 group hover:shadow-md transition-all hover:scale-105 duration-300 cursor-pointer">
+                  <div key={`b1-${i}`} className="flex-shrink-0 w-32 h-20 sm:w-56 sm:h-32 bg-white rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center p-4 sm:p-6 group hover:shadow-md transition-all hover:scale-105 duration-300 cursor-pointer">
                     <Image 
                       src={logo} 
                       alt="Innovation Logo" 
@@ -904,7 +889,7 @@ export function Hero() {
               </div>
               <div className="flex items-center gap-8 pr-8">
                 {INNOVATION_LOGOS_BOTTOM.map((logo, i) => (
-                  <div key={`b2-${i}`} className="flex-shrink-0 w-56 h-32 bg-white rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center p-6 group hover:shadow-md transition-all hover:scale-105 duration-300 cursor-pointer">
+                  <div key={`b2-${i}`} className="flex-shrink-0 w-32 h-20 sm:w-56 sm:h-32 bg-white rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center p-4 sm:p-6 group hover:shadow-md transition-all hover:scale-105 duration-300 cursor-pointer">
                     <Image 
                       src={logo} 
                       alt="Innovation Logo" 

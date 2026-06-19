@@ -372,26 +372,8 @@ function TrainingDetailsTab() {
             </p>
           </div>
 
-          {/* Mobile: 4-column static grid */}
-          <div className="grid grid-cols-4 gap-3 md:hidden mt-6">
-            {[...INNOVATION_LOGOS_TOP, ...INNOVATION_LOGOS_BOTTOM].map((logo, i) => (
-              <div
-                key={`mob-${i}`}
-                className="bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-center p-3 aspect-[4/3]"
-              >
-                <Image
-                  src={logo}
-                  alt="Innovation partner logo"
-                  width={100}
-                  height={60}
-                  className="max-h-full max-w-full object-contain grayscale opacity-70"
-                />
-              </div>
-            ))}
-          </div>
-
-          {/* Desktop: dual animated marquees */}
-          <div className="hidden md:flex relative mt-10 w-full overflow-hidden before:absolute before:left-0 before:top-0 before:z-10 before:h-full before:w-[80px] before:bg-gradient-to-r before:from-white before:to-transparent after:absolute after:right-0 after:top-0 after:z-10 after:h-full after:w-[80px] after:bg-gradient-to-l after:from-white after:to-transparent flex-col gap-6">
+          {/* Responsive Animated Marquees */}
+          <div className="flex relative mt-8 md:mt-10 w-full overflow-hidden before:absolute before:left-0 before:top-0 before:z-10 before:h-full before:w-[40px] md:before:w-[80px] before:bg-gradient-to-r before:from-white before:to-transparent after:absolute after:right-0 after:top-0 after:z-10 after:h-full after:w-[40px] md:after:w-[80px] after:bg-gradient-to-l after:from-white after:to-transparent flex-col gap-4 md:gap-6 py-2">
             <style dangerouslySetInnerHTML={{ __html: `
               @keyframes pl-scroll-left  { from { transform: translateX(0);    } to { transform: translateX(-50%); } }
               @keyframes pl-scroll-right { from { transform: translateX(-50%); } to { transform: translateX(0);    } }
@@ -403,7 +385,7 @@ function TrainingDetailsTab() {
             {/* Row 1 — left */}
             <div className="flex pl-scroll-left items-center w-max">
               {[...INNOVATION_LOGOS_TOP, ...INNOVATION_LOGOS_TOP].map((logo, i) => (
-                <div key={`t-${i}`} className="flex-shrink-0 w-52 h-28 mx-4 bg-slate-50 rounded-2xl border border-slate-100 flex items-center justify-center p-5 group hover:shadow-md hover:scale-105 transition-all duration-300 cursor-pointer">
+                <div key={`t-${i}`} className="flex-shrink-0 w-32 h-20 sm:w-52 sm:h-28 mx-2 sm:mx-4 bg-slate-50 rounded-2xl border border-slate-100 flex items-center justify-center p-4 sm:p-5 group hover:shadow-md hover:scale-105 transition-all duration-300 cursor-pointer">
                   <Image src={logo} alt="partner logo" width={160} height={80} className="max-h-full max-w-full object-contain grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500" />
                 </div>
               ))}
@@ -412,7 +394,7 @@ function TrainingDetailsTab() {
             {/* Row 2 — right */}
             <div className="flex pl-scroll-right items-center w-max">
               {[...INNOVATION_LOGOS_BOTTOM, ...INNOVATION_LOGOS_BOTTOM].map((logo, i) => (
-                <div key={`b-${i}`} className="flex-shrink-0 w-52 h-28 mx-4 bg-slate-50 rounded-2xl border border-slate-100 flex items-center justify-center p-5 group hover:shadow-md hover:scale-105 transition-all duration-300 cursor-pointer">
+                <div key={`b-${i}`} className="flex-shrink-0 w-32 h-20 sm:w-52 sm:h-28 mx-2 sm:mx-4 bg-slate-50 rounded-2xl border border-slate-100 flex items-center justify-center p-4 sm:p-5 group hover:shadow-md hover:scale-105 transition-all duration-300 cursor-pointer">
                   <Image src={logo} alt="partner logo" width={160} height={80} className="max-h-full max-w-full object-contain grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500" />
                 </div>
               ))}
