@@ -1,59 +1,60 @@
 import { NextResponse } from "next/server";
+import nodemailer from "nodemailer";
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
 
-    // Use the email from the server-side environment variable.
-    // This is a SECRET variable — it never leaves the server and never appears in browser dev tools.
-    const email =
-      process.env.FORM_EMAIL ||
-      process.env.NEXT_PUBLIC_FORM_EMAIL ||
-      "principal@agmrcet.ac.in";
+    const gmailUser = process.env.GMAIL_USER;
+    const gmailPass = process.env.GMAIL_APP_PASSWORD;
+    const toEmail   = process.env.FORM_EMAIL || process.env.NEXT_PUBLIC_FORM_EMAIL || gmailUser;
 
-    // FormSubmit.co AJAX endpoint — no API key required, completely free.
-    // Because this request is made from the Next.js SERVER (not the browser),
-    // there are zero CORS issues and adblockers cannot interfere.
-    const response = await fetch(`https://formsubmit.co/ajax/${email}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
+    if (!gmailUser || !gmailPass) {
+      return NextResponse.json(
+        { message: "Server error: Gmail credentials are not configured in Vercel environment variables." },
+        { status: 500 }
+      );
+    }
+
+    // Build a readable HTML email from the form fields
+    const rows = Object.entries(body)
+      .filter(([key]) => !key.startsWith("_"))
+      .map(([key, val]) => `<tr><td style="padding:8px 12px;font-weight:bold;background:#f4f4f4;border:1px solid #ddd;text-transform:capitalize">${key}</td><td style="padding:8px 12px;border:1px solid #ddd">${val}</td></tr>`)
+      .join("");
+
+    const html = `
+      <div style="font-family:Arial,sans-serif;max-width:600px;margin:auto">
+        <h2 style="background:#0a192f;color:#d4af37;padding:16px;margin:0">
+          ${body.subject || "New Form Submission"} — AGM College
+        </h2>
+        <table style="width:100%;border-collapse:collapse;margin-top:12px">
+          ${rows}
+        </table>
+        <p style="color:#888;font-size:12px;margin-top:16px">
+          Sent automatically from agmcet.vercel.app
+        </p>
+      </div>`;
+
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: gmailUser,
+        pass: gmailPass,
       },
-      body: JSON.stringify({
-        ...body,
-        _captcha: "false",
-        _template: "table",
-      }),
     });
 
-    // FormSubmit may return non-JSON on first activation. Handle gracefully.
-    let data: { success?: string; message?: string } = {};
-    try {
-      data = await response.json();
-    } catch {
-      // If FormSubmit returned non-JSON it might be the first-time activation email.
-      // Treat it as a success so the user sees a confirmation.
-      return NextResponse.json({
-        success: true,
-        message:
-          "Form submitted! If this is the first submission, please check your email to activate FormSubmit.",
-      });
-    }
+    await transporter.sendMail({
+      from: `"AGM College Website" <${gmailUser}>`,
+      to: toEmail,
+      subject: body.subject || "New Form Submission – AGM College",
+      html,
+    });
 
-    if (data.success === "true" || data.success === true as unknown as string) {
-      return NextResponse.json({ success: true, message: "Form submitted successfully." });
-    }
-
-    // FormSubmit returned a failure message
-    return NextResponse.json(
-      { message: data.message || "FormSubmit rejected the request." },
-      { status: 400 }
-    );
+    return NextResponse.json({ success: true, message: "Form submitted successfully." });
   } catch (error) {
-    console.error("API Contact Error:", error);
+    console.error("Mail error:", error);
     return NextResponse.json(
-      { message: `Server error: ${error instanceof Error ? error.message : String(error)}` },
+      { message: `Mail error: ${error instanceof Error ? error.message : String(error)}` },
       { status: 500 }
     );
   }
