@@ -12,7 +12,6 @@ import {
   Send,
   Building2,
 } from "lucide-react";
-import { useState } from "react";
 
 // ── Breadcrumb ────────────────────────────────────────────────────────────────
 function Breadcrumb() {

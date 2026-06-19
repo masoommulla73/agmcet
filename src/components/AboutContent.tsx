@@ -12,6 +12,7 @@ import {
   GraduationCap,
   Users,
   Quote,
+  Leaf,
 } from "lucide-react";
 
 // ── Types ──────────────────────────────────────────────────────────────────

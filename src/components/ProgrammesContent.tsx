@@ -232,7 +232,6 @@ function ProgrammesContentInner() {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setActiveTab(branchQuery);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [branchQuery]);
 
   const handleTabChange = (tab: BranchId) => {
