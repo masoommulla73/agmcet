@@ -106,16 +106,12 @@ function EnquiryForm() {
     const formData = new FormData(form);
 
     try {
-      const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_KEY || "YOUR_ACCESS_KEY_HERE";
-      
-      const res = await fetch("https://api.web3forms.com/submit", {
+      const res = await fetch("/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Accept: "application/json",
         },
         body: JSON.stringify({
-          access_key: accessKey,
           subject: "New Contact Us Message!",
           from_name: "AGM College Website",
           ...Object.fromEntries(formData),
