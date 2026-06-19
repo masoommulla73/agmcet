@@ -52,6 +52,7 @@ export default function AdminDashboard() {
 
   // Custom Leave Confirmation state
   const [showLeavePrompt, setShowLeavePrompt] = useState(false);
+  const [submissionToDelete, setSubmissionToDelete] = useState<string | null>(null);
 
   // Fetch submissions
   const fetchSubmissions = useCallback(async () => {
@@ -127,8 +128,9 @@ export default function AdminDashboard() {
     }
   };
 
-  const deleteSubmission = async (id: string) => {
-    if (!confirm("Are you sure you want to delete this submission?")) return;
+  const confirmDelete = async () => {
+    if (!submissionToDelete) return;
+    const id = submissionToDelete;
     try {
       const token = sessionStorage.getItem("admin_token");
       await fetch(`/api/admin/forms?id=${id}`, {
@@ -141,7 +143,13 @@ export default function AdminDashboard() {
       }
     } catch (err) {
       console.error(err);
+    } finally {
+      setSubmissionToDelete(null);
     }
+  };
+
+  const deleteSubmission = (id: string) => {
+    setSubmissionToDelete(id);
   };
 
   const handleUpdateCredentials = async (e: React.FormEvent) => {
@@ -528,6 +536,37 @@ export default function AdminDashboard() {
               >
                 Mark as {selectedSubmission.status === "pending" ? "Resolved" : "Pending"}
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Custom Delete Confirmation Modal */}
+      {submissionToDelete && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#0a192f]/60 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-white rounded-2xl w-full max-w-md shadow-2xl overflow-hidden scale-in duration-200">
+            <div className="p-8 text-center">
+              <div className="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Trash2 className="w-8 h-8 text-red-600" />
+              </div>
+              <h3 className="text-2xl font-bold text-[#0a192f] mb-3 font-serif">Delete Submission?</h3>
+              <p className="text-slate-500 mb-8 max-w-[280px] mx-auto leading-relaxed">
+                Are you sure you want to delete this submission? This action cannot be undone.
+              </p>
+              <div className="flex items-center justify-center gap-4">
+                <button
+                  onClick={() => setSubmissionToDelete(null)}
+                  className="px-6 py-3 rounded-xl text-sm font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 transition-colors w-full sm:w-auto"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={confirmDelete}
+                  className="px-6 py-3 rounded-xl text-sm font-bold bg-red-600 text-white hover:bg-red-700 transition-colors w-full sm:w-auto shadow-md shadow-red-600/20"
+                >
+                  Yes, Delete
+                </button>
+              </div>
             </div>
           </div>
         </div>
