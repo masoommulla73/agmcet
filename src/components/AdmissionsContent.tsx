@@ -363,6 +363,63 @@ const COURSES = [
 const EDUCATION_LEVELS = ["12th (PUC)", "Diploma", "Other"];
 
 function EnquiryTab() {
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setStatus("loading");
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+
+    try {
+      const email = process.env.NEXT_PUBLIC_FORM_EMAIL || "yourgmail@gmail.com";
+      const res = await fetch(`https://formsubmit.co/ajax/${email}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          _subject: "New Admission Enquiry!",
+          ...data,
+        }),
+      });
+
+      if (res.ok) {
+        setStatus("success");
+        form.reset();
+      } else {
+        setStatus("error");
+      }
+    } catch (err) {
+      setStatus("error");
+    }
+  }
+
+  if (status === "success") {
+    return (
+      <div className="py-14 bg-slate-50">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl flex flex-col items-center justify-center text-center">
+          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-[#d4af37]/10 text-[#d4af37] mb-6">
+            <CheckCircle2 className="w-10 h-10" />
+          </div>
+          <h3 className="text-2xl font-bold text-[#0a192f] mb-3 font-serif">Application Submitted!</h3>
+          <p className="text-slate-500 mb-8 max-w-md">
+            Thank you for applying. Our admissions counsellor will get in touch with you within 24 hours.
+          </p>
+          <button
+            onClick={() => setStatus("idle")}
+            className="bg-[#0a192f] text-white px-8 py-3 rounded-full font-bold text-sm shadow-lg hover:bg-slate-800 transition-all duration-300"
+          >
+            Submit Another Application
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="py-14 bg-slate-50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl">
@@ -373,15 +430,14 @@ function EnquiryTab() {
           Fill in the form below and our admissions counsellor will get in touch with you within 24 hours.
         </p>
 
-        {(() => {
-          const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 
-            (process.env.NEXT_PUBLIC_VERCEL_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : 'https://agmcollege.edu.in');
-          
-          return (
-            <form action={`https://formsubmit.co/${process.env.NEXT_PUBLIC_FORM_EMAIL || 'yourgmail@gmail.com'}`} method="POST" className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 sm:p-10 space-y-6 relative overflow-hidden">
-              <input type="hidden" name="_captcha" value="false" />
-              <input type="hidden" name="_subject" value="New Admission Enquiry!" />
-              <input type="hidden" name="_next" value={`${baseUrl}/admissions`} />
+        <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 sm:p-10 space-y-6 relative overflow-hidden">
+          {status === "error" && (
+            <div className="p-4 bg-red-50 text-red-600 text-sm rounded-xl border border-red-100 text-center">
+              Oops! Something went wrong. Please try again later.
+            </div>
+          )}
+
+          <input type="hidden" name="_captcha" value="false" />
           
           {/* Top gold bar */}
           <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#d4af37] to-[#0a192f]" />
@@ -497,15 +553,14 @@ function EnquiryTab() {
           <div className="pt-2">
             <button
               type="submit"
-              className="w-full sm:w-auto bg-[#d4af37] text-white px-10 py-3.5 rounded-full font-bold text-sm shadow-lg hover:bg-[#b5952f] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 flex items-center justify-center gap-2 group"
+              disabled={status === "loading"}
+              className="w-full sm:w-auto bg-[#d4af37] text-white px-10 py-3.5 rounded-full font-bold text-sm shadow-lg hover:bg-[#b5952f] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 flex items-center justify-center gap-2 group disabled:opacity-70 disabled:pointer-events-none"
             >
-              Apply Now
-              <Send className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
+              {status === "loading" ? "Submitting..." : "Apply Now"}
+              {status !== "loading" && <Send className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />}
             </button>
           </div>
         </form>
-        );
-        })()}
 
       </div>
     </div>

@@ -12,6 +12,7 @@ import {
   Send,
   Building2,
 } from "lucide-react";
+import { useState } from "react";
 
 // ── Breadcrumb ────────────────────────────────────────────────────────────────
 function Breadcrumb() {
@@ -95,14 +96,68 @@ const CONTACT_ITEMS = [
 
 // ── Quick Enquiry Form ────────────────────────────────────────────────────────
 function EnquiryForm() {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 
-    (process.env.NEXT_PUBLIC_VERCEL_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : 'https://agmcollege.edu.in');
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setStatus("loading");
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+
+    try {
+      const email = process.env.NEXT_PUBLIC_FORM_EMAIL || "yourgmail@gmail.com";
+      const res = await fetch(`https://formsubmit.co/ajax/${email}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          _subject: "New Contact Us Message!",
+          ...data,
+        }),
+      });
+
+      if (res.ok) {
+        setStatus("success");
+        form.reset();
+      } else {
+        setStatus("error");
+      }
+    } catch (err) {
+      setStatus("error");
+    }
+  }
+
+  if (status === "success") {
+    return (
+      <div className="flex flex-col items-center justify-center py-16 text-center">
+        <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#d4af37]/10 text-[#d4af37] mb-4">
+          <Send className="w-8 h-8" />
+        </div>
+        <h3 className="text-lg font-bold text-[#0a192f] mb-2 font-serif">Message Sent!</h3>
+        <p className="text-slate-500 text-sm">Thank you! We will get back to you within 24 hours.</p>
+        <button
+          onClick={() => setStatus("idle")}
+          className="mt-6 text-[10px] font-bold uppercase tracking-widest text-[#d4af37] hover:text-[#0a192f] transition-colors"
+        >
+          Send Another Message
+        </button>
+      </div>
+    );
+  }
 
   return (
-    <form action={`https://formsubmit.co/${process.env.NEXT_PUBLIC_FORM_EMAIL || 'yourgmail@gmail.com'}`} method="POST" className="space-y-5">
+    <form onSubmit={handleSubmit} className="space-y-5">
+      {status === "error" && (
+        <div className="p-3 bg-red-50 text-red-600 text-sm rounded-xl border border-red-100 text-center">
+          Oops! Something went wrong. Please try again later.
+        </div>
+      )}
+
       <input type="hidden" name="_captcha" value="false" />
-      <input type="hidden" name="_subject" value="New Contact Us Message!" />
-      <input type="hidden" name="_next" value={`${baseUrl}/contact`} />
       
       {/* Name + Phone */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -175,10 +230,11 @@ function EnquiryForm() {
       {/* Submit */}
       <button
         type="submit"
-        className="w-full sm:w-auto bg-[#d4af37] text-white px-10 py-3.5 rounded-full font-bold text-sm shadow-lg hover:bg-[#b5952f] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 flex items-center justify-center gap-2 group"
+        disabled={status === "loading"}
+        className="w-full sm:w-auto bg-[#d4af37] text-white px-10 py-3.5 rounded-full font-bold text-sm shadow-lg hover:bg-[#b5952f] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 flex items-center justify-center gap-2 group disabled:opacity-70 disabled:pointer-events-none"
       >
-        Send Message
-        <Send className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
+        {status === "loading" ? "Sending..." : "Send Message"}
+        {status !== "loading" && <Send className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />}
       </button>
     </form>
   );
