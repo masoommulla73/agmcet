@@ -371,7 +371,6 @@ function EnquiryTab() {
 
     const form = e.currentTarget;
     const formData = new FormData(form);
-    const data = Object.fromEntries(formData.entries());
 
     try {
       const email = process.env.NEXT_PUBLIC_FORM_EMAIL || "yourgmail@gmail.com";
@@ -387,8 +386,8 @@ function EnquiryTab() {
       // With no-cors, we assume success if the network request completed
       setStatus("success");
       form.reset();
-    } catch (err: any) {
-      setStatus(`Error: ${err.message || 'Network error'}`);
+    } catch (err: unknown) {
+      setStatus(`Error: ${(err as Error).message || 'Network error'}`);
     }
   }
 

@@ -330,7 +330,7 @@ export function AboutContent() {
         <MessageContent
           name="Dr. Ravindra Patil"
           role="Principal's Message"
-          imageSrc="/images/about/principal.png"
+          imageSrc="/images/principal.jpeg"
           imageAlt="Dr. Ravindra Patil - Principal"
           tagline="A Message of Achievement & Pride"
           paragraphs={[

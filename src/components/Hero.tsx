@@ -4,7 +4,7 @@ import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight, BookOpen, Building2, Briefcase, Award, Users, Library, TrendingUp, Shield, Map, Star, Laptop, Trophy, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowRight, BookOpen, Building2, Briefcase, Award, Users, Library, TrendingUp, Shield, Map, Star, Laptop, Trophy, ChevronLeft, ChevronRight, Volume2, VolumeX } from "lucide-react";
 
 const PROGRAMMES = [
   { 
@@ -450,20 +450,9 @@ export function Hero() {
         </div>
       </section>
 
-      {/* Main Large Hero Image */}
+      {/* Main Large Hero Video */}
       <section className="px-4 sm:px-6 lg:px-8 pb-20">
-        <div className="relative w-full rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white bg-slate-200 flex items-center justify-center">
-          <Image
-            src="/images/desk.png"
-            alt="A.G.M College Campus"
-            width={1920}
-            height={1080}
-            priority
-            className="w-full h-auto object-contain"
-            sizes="100vw"
-            quality={100}
-          />
-        </div>
+        <VideoCard />
       </section>
 
       {/* Inspirational Message Section */}
@@ -930,6 +919,65 @@ export function Hero() {
           </div>
         </div>
       </section>
+    </div>
+  );
+}
+
+// ── Custom Video Component ──────────────────────────────────────────────────
+function VideoCard() {
+  const cursorRef = useRef<HTMLDivElement>(null);
+  const [isMuted, setIsMuted] = useState(true);
+  const [isHoveringVideo, setIsHoveringVideo] = useState(false);
+
+  useEffect(() => {
+    const moveCursor = (e: MouseEvent) => {
+      if (cursorRef.current) {
+        cursorRef.current.style.left = `${e.clientX}px`;
+        cursorRef.current.style.top = `${e.clientY}px`;
+      }
+    };
+    if (isHoveringVideo) {
+      window.addEventListener("mousemove", moveCursor);
+    }
+    return () => window.removeEventListener("mousemove", moveCursor);
+  }, [isHoveringVideo]);
+
+  return (
+    <div 
+      className="relative w-full rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white bg-[#0a192f] flex items-center justify-center cursor-none group aspect-video sm:aspect-auto"
+      onMouseEnter={() => setIsHoveringVideo(true)}
+      onMouseLeave={() => setIsHoveringVideo(false)}
+      onClick={() => setIsMuted(!isMuted)}
+    >
+      <video
+        src="/videos/video.mp4"
+        autoPlay
+        loop
+        muted={isMuted}
+        playsInline
+        className="w-full h-auto object-cover"
+      />
+      
+      {/* Custom Cursor */}
+      {isHoveringVideo && (
+        <div 
+          ref={cursorRef}
+          className="fixed pointer-events-none z-[100] flex flex-col items-center justify-center w-20 h-20 bg-[#d4af37]/90 text-white rounded-full font-bold text-[10px] uppercase tracking-widest shadow-2xl backdrop-blur-sm transition-transform duration-100 ease-out"
+          style={{ transform: 'translate(-50%, -50%)' }}
+        >
+          {isMuted ? (
+            <>
+              <VolumeX className="w-5 h-5 mb-1" />
+              Unmute
+            </>
+          ) : (
+            <>
+              <Volume2 className="w-5 h-5 mb-1" />
+              Mute
+            </>
+          )}
+        </div>
+      )}
     </div>
   );
 }
