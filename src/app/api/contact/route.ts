@@ -4,7 +4,6 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
 
-    // WEB3FORMS_KEY — set this in Vercel Environment Variables
     const accessKey = (process.env.WEB3FORMS_KEY || "").trim();
 
     if (!accessKey) {
@@ -14,12 +13,16 @@ export async function POST(request: Request) {
       );
     }
 
-    // Exact same structure as your working portfolio project
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://agmcet.vercel.app";
+
     const res = await fetch("https://api.web3forms.com/submit", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
+        Origin: siteUrl,
+        Referer: siteUrl,
+        "User-Agent": "Mozilla/5.0 (compatible; AGMCollegeBot/1.0)",
       },
       body: JSON.stringify({
         access_key: accessKey,
@@ -27,12 +30,13 @@ export async function POST(request: Request) {
       }),
     });
 
-    if (res.ok) {
+    const data = await res.json().catch(() => ({}));
+
+    if (res.ok && (data as { success?: boolean }).success) {
       return NextResponse.json({ success: true, message: "Form submitted successfully." });
     } else {
-      const err = await res.json().catch(() => ({}));
       return NextResponse.json(
-        { message: (err as { message?: string }).message || `Web3Forms error (Status: ${res.status})` },
+        { message: (data as { message?: string }).message || `Web3Forms error (Status: ${res.status})` },
         { status: res.status }
       );
     }
