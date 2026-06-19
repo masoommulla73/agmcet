@@ -100,8 +100,7 @@ export default function AdminDashboard() {
   }, [isAuthenticated]);
 
   const confirmLeave = () => {
-    sessionStorage.removeItem("admin_token");
-    window.location.href = "/admin/login";
+    logout();
   };
 
   const cancelLeave = () => {
@@ -178,7 +177,7 @@ export default function AdminDashboard() {
     }
   };
 
-  if (isAuthenticated === null) return null; // Initial load
+  if (!isAuthenticated) return null; // Prevent rendering if not authenticated or loading
 
   const filteredSubmissions = submissions.filter(s => s.type === activeTab);
 

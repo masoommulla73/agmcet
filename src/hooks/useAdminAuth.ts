@@ -24,7 +24,8 @@ export function useAdminAuth() {
 
   const logout = useCallback(() => {
     sessionStorage.removeItem('admin_token');
-    router.push('/admin/login');
+    setIsAuthenticated(false);
+    router.replace('/');
   }, [router]);
 
   return { isAuthenticated, logout };
